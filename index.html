@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://app.managedmissions.com/scripts/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<pre id="out"></pre>
+
+<script>
+$(function () {
+  $.ajax({
+    url: "https://example.com/test", // replace with real JSONP URL
+    dataType: "jsonp",
+    beforeSend: function (xhr, settings) {
+      document.getElementById("out").textContent = settings.url;
+      console.log(settings.url);
+    },
+    error: function () {
+      console.log("Request failed, but callback URL was generated.");
+    }
+  });
+});
+</script>
+</body>
+</html>
