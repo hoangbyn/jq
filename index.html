@@ -1,53 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>jQuery Callback Test</title>
-
-    <script src="https://app.managedmissions.com/scripts/jquery-3.5.1.min.js"></script>
+  <script src="https://app.managedmissions.com/scripts/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 
-<h3>Generated Callback:</h3>
-<pre id="result">Waiting...</pre>
+<h3>Callback only:</h3>
+<pre id="callback"></pre>
+
+<h3>Full generated URL:</h3>
+<pre id="url"></pre>
 
 <script>
+$(function () {
+  $.ajax({
+    url: "https://example.com/test",
+    dataType: "jsonp",
 
-(function() {
+    beforeSend: function (xhr, settings) {
+      var fullUrl = settings.url;
+      var match = fullUrl.match(/[?&]callback=([^&]+)/);
 
-    var oldAjax = $.ajax;
+      document.getElementById("url").textContent = fullUrl;
 
-    $.ajax = function(options) {
+      if (match) {
+        document.getElementById("callback").textContent =
+          decodeURIComponent(match[1]);
+      }
+    },
 
-        if (options.dataType === "jsonp") {
-
-            var oldBeforeSend = options.beforeSend;
-
-            options.beforeSend = function(xhr, settings) {
-
-                document.getElementById("result").innerText =
-                    "Generated URL:\n\n" + settings.url;
-
-                console.log(settings.url);
-
-                if (oldBeforeSend) {
-                    return oldBeforeSend(xhr, settings);
-                }
-            };
-        }
-
-        return oldAjax.apply(this, arguments);
-    };
-
-    $.ajax({
-        url: "https://api.github.com/users/octocat?callback=?",
-        dataType: "jsonp",
-        success: function(data) {
-            console.log(data);
-        }
-    });
-
-})();
+    error: function () {
+      console.log("JSONP failed, but callback was generated.");
+    }
+  });
+});
 </script>
 
 </body>
