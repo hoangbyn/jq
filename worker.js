@@ -6,6 +6,8 @@ export default {
       "_" +
       Date.now();
 
+    const url = "https://example.com/test?callback=" + callback;
+
     const html = `<!DOCTYPE html>
 <html>
 <head>
@@ -13,14 +15,14 @@ export default {
 <title>Generated Callback</title>
 </head>
 <body>
-<pre>${callback}</pre>
+<pre>${url}</pre>
 </body>
 </html>`;
 
     return new Response(html, {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"
+        "Cache-Control": "no-store"
       }
     });
   }
