@@ -1,26 +1,21 @@
 <?php
-
-$callback =
-    'jQuery3510' .
-    mt_rand(100000000000000000,999999999999999999) .
-    '_' .
+$callback = "jQuery3510" .
+    rand(100000000, 999999999) .
+    rand(100000000, 999999999) .
+    "_" .
     round(microtime(true) * 1000);
 
-$url = "https://example.com/test";
+$url = "https://example.com/test?callback=" . $callback;
+?>
+<!DOCTYPE html>
+<html>
+<body>
 
-$ch = curl_init($url);
+<h3>Callback:</h3>
+<pre><?php echo $callback; ?></pre>
 
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, [
-    'callback' => $callback
-]);
+<h3>Full URL:</h3>
+<pre><?php echo $url; ?></pre>
 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-$response = curl_exec($ch);
-
-curl_close($ch);
-
-echo "<pre>";
-echo htmlspecialchars($response);
-echo "</pre>";
+</body>
+</html>
