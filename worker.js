@@ -1,29 +1,15 @@
 export default {
-  async fetch(request) {
+  async fetch() {
     const callback =
       "jQuery3510" +
       Math.floor(Math.random() * 999999999999999999) +
       "_" +
       Date.now();
 
-    const url = "https://example.com/test?callback=" + callback;
-
-    const html = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Generated Callback</title>
-</head>
-<body>
-<pre>${url}</pre>
-</body>
-</html>`;
-
-    return new Response(html, {
+    return new Response(callback, {
       headers: {
-        "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "no-store"
+        "Content-Type": "text/plain"
       }
     });
   }
-};
+}
